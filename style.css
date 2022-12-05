@@ -8,6 +8,10 @@ h1 {
     font-size: 21px;
 }
 
+h3 {
+    font-size: 14px;
+}
+
 .pokedex {
     position: relative;
     width: 300px;
@@ -51,6 +55,12 @@ h1 {
 }
 
 #pokemon-type {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.pokemon-type {
     padding-left: 16px;
     padding-right: 16px;
     padding-top: 2px;
@@ -94,6 +104,7 @@ nav {
 
 table {
     margin-top: 16px;
+    line-height: 22px;
 }
 
 table tr td:first-child {
