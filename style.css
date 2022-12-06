@@ -4,6 +4,16 @@ body {
     background-color: azure;
 }
 
+.font-color-gray {
+    color: rgb(120, 120, 120);
+    font-size: 12px;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+}
+
 h1 {
     font-size: 21px;
 }
@@ -37,20 +47,20 @@ h3 {
 }
 
 .info-container {
-
+    height: 350px;
     background-color: white;
     border-radius: 20px;
     margin-top: -20px;
-    height: 350px;
     padding-left: 16px;
     padding-right: 16px;
+    padding-bottom: 16px;
 }
 
 #pokemon-image {
     width: 170px;
     height: auto;
     position: absolute;
-    bottom: 330px;
+    bottom: 340px;
     left: 65px;
 }
 
@@ -117,3 +127,15 @@ table tr td:last-child {
     font-size: 12px;
 }
 
+.gender {
+    height: 12px;
+    width: auto;
+}
+
+.base-stats-gap {
+    margin-left: 35px;
+}
+
+#total-base-stats {
+    margin-left: -7px;
+}
