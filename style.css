@@ -112,6 +112,12 @@ nav {
     color: #000000;
 }
 
+.selected-menu {
+    cursor: pointer;
+    border-bottom-color: blue !important;
+    color: #000000; 
+}
+
 table {
     margin-top: 16px;
     line-height: 22px;
@@ -138,4 +144,10 @@ table tr td:last-child {
 
 #total-base-stats {
     margin-left: -7px;
+}
+
+@media (max-width: 500px) {
+    .pokedex {
+        margin: 16px;
+    }
 }
