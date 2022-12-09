@@ -2,38 +2,40 @@ let currentPokemon = [];
 let currentPokemonBreeding = [];
 let currentPokemonEvolution1 = [];
 let totalStat;
-let pokemons = ['charmander', 'growlithe', 'vulpix', 'bulbasaur', 'caterpie', 'squirtle', 'wooper', 'pikachu'];
+let pokemons = ['charmander', 'growlithe', 'vulpix', 'ponyta', 'cyndaquil', 'bulbasaur', 'treecko', 'exeggcute', 'bellsprout', 'squirtle', 'psyduck', 'staryu', 'seel', 'wooper', 'pikachu', 'magnemite', 'voltorb'];
 
+//load api and render pokedex
 async function loadPokemon() {
   for (let i = 0; i < pokemons.length; i++) {
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemons[i]}`; 
     let response = await fetch(url);
     currentPokemon[i] = await response.json();
-    console.log(currentPokemon[i]);
 
     let url_breeding = `https://pokeapi.co/api/v2/pokemon-species/${pokemons[i]}`;
     let response_url_breeding = await fetch(url_breeding);
     currentPokemonBreeding[i] = await response_url_breeding.json();
-    console.log(currentPokemonBreeding[i]);
 
     let evolution_chain = currentPokemonBreeding[i].evolution_chain.url;
     let response_evolution_chain = await fetch(evolution_chain);
     let currentPokemonEvolution = await response_evolution_chain.json();
-    console.log(currentPokemonEvolution);
 
     let evolution_1 = currentPokemonEvolution.chain.evolves_to[0].species.url;
     let response_evolution_1 = await fetch(evolution_1);
     currentPokemonEvolution1[i] = await response_evolution_1.json();
-    console.log(currentPokemonEvolution1[i]);
 
     renderPokemonCard(i);
   }
-  renderPokemonInfo(0);
+  renderPokemonInfo(0)
 }
 
+
+//-------------Pokedex Menu---------------------------------------------------------------------------------
+
+
+//render pokedex menu
 function renderPokemonCard(i) {
     document.getElementById('pokedex-menu').innerHTML += `
-      <div class="pokemon-card" id="${pokemons[i]}">
+      <div onclick='renderPokemonInfo(${i})' class="pokemon-card" id="${pokemons[i]}">
         <b>${currentPokemonBreeding[i].names[5].name}</b>
         <img class="card-img" src="${currentPokemon[i].sprites.other.dream_world.front_default}">
       </div>
@@ -42,6 +44,7 @@ function renderPokemonCard(i) {
     backgroundColorCard(i);
 }
 
+//render Pokemon Types with different background-color
 function renderPokemonCardType(index) {
     for (let i = 0; i < currentPokemon[index].types.length; i++) {
         document.getElementById(pokemons[index]).innerHTML += `
@@ -49,6 +52,7 @@ function renderPokemonCardType(index) {
     }
 }
 
+//background color of pokemon card, matching the pokemon type
 function backgroundColorCard(i) {
     if (currentPokemon[i].types[0].type.name == 'fire'){
         document.getElementById(`${pokemons[i]}`).classList.add('background-red');
@@ -76,24 +80,14 @@ function backgroundColorCard(i) {
     }
 }
 
+
+//----------------------Pokedex Info Card------------------------------------------------------------------------------------
+
+
+//render information of selected pokemon
 function renderPokemonInfo(i) {
-    document.getElementById('pokedex').innerHTML = `
-        <div class="pokedex-container" id="pokedex-background">
-            <h1 id="pokemon-name"></h1>
-            <div id="pokemon-type"></div>
-            <div id="pokemon-id"></div>
-        </div>
-        <div class="info-container">
-            <img id="pokemon-image">
-            <nav>
-                <div id="nav-tab-about" onclick="renderAbout(${i})" class="nav-tab">About</div>
-                <div id="nav-tab-stats" onclick="renderBaseStats(${i})" class="nav-tab">Base Stats</div>
-                <div id="nav-tab-evolution" onclick="renderEvolution(${i})" class="nav-tab">Evolution</div>
-                <div id="nav-tab-moves" onclick="renderMoves(${i})" class="nav-tab">Moves</div>
-            </nav>
-            <div id="info-container-content"></div>
-        </div>
-    `;
+    document.getElementById('pokedex').classList.remove('d-none');
+    document.getElementById('pokedex').innerHTML = returnFrontCover(i);
     document.getElementById('pokemon-name').innerHTML = currentPokemonBreeding[i].names[5].name; 
     document.getElementById('pokemon-image').src = currentPokemon[i].sprites.other.dream_world.front_default;
     renderPokemonType(i);
@@ -102,6 +96,12 @@ function renderPokemonInfo(i) {
     renderAbout(i);
 }
 
+//Hide Pokedex Info Card, when clicking on back-arrow
+function hideCard() {
+    document.getElementById('pokedex').classList.add('d-none');
+}
+
+//background color of pokemon info card, matching the pokemon type
 function backgroundColorPokedex(i) {
     if (currentPokemon[i].types[0].type.name == 'fire'){
         document.getElementById('pokedex-background').classList.add('background-red');
@@ -129,6 +129,7 @@ function backgroundColorPokedex(i) {
     }
 }
 
+//render Pokemon Types with different background-color
 function renderPokemonType(index) {
     for (let i = 0; i < currentPokemon[index].types.length; i++) {
         document.getElementById('pokemon-type').innerHTML += `
@@ -140,13 +141,15 @@ function renderPokemonId(i) {
     if(currentPokemon[i].id < 10) {
         document.getElementById('pokemon-id').innerHTML = '#00' + currentPokemon[i].id;
     }
-    if(currentPokemon[i].id >= 10 && currentPokemon[i].held_items.id < 100) {
+    if(currentPokemon[i].id >= 10 && currentPokemon[i].id < 100) {
         document.getElementById('pokemon-id').innerHTML = '#0' + currentPokemon[i].id;
     }
     if(currentPokemon[i].id > 100) {
         document.getElementById('pokemon-id').innerHTML = '#' + currentPokemon[i].id;
     }
 }
+
+//--------render the about section of the pokemon info card--------------------------------------------
 
 function renderAbout(i) {
     document.getElementById('nav-tab-about').classList.add('selected-menu');
@@ -157,6 +160,9 @@ function renderAbout(i) {
     document.getElementById('info-container-content').innerHTML = returnAboutHTML(i);
     renderAbilities(i);
     renderEggGroups(i);
+    if (currentPokemonBreeding[i].gender_rate < 0) {
+        document.getElementById('gender').innerHTML = 'unknown';
+    }
 }
 
 function renderAbilities(index) {
@@ -173,6 +179,8 @@ function renderEggGroups(index) {
     document.getElementById('egg-groups').innerHTML += currentPokemonBreeding[index].egg_groups[currentPokemonBreeding[index].egg_groups.length - 1].name;
 }
 
+//-------render the Base Stats section of pokemon info card---------------------------------------------
+
 function renderBaseStats(i) {
     document.getElementById('nav-tab-about').classList.remove('selected-menu');
     document.getElementById('nav-tab-stats').classList.add('selected-menu');
@@ -187,14 +195,14 @@ function renderBaseStats(i) {
 
 function totalBaseStats (i) {
     document.getElementById('total-base-stats').innerHTML =`
-            ${  totalStat =
-                currentPokemon[i].stats[0].base_stat
-                + currentPokemon[i].stats[1].base_stat
-                + currentPokemon[i].stats[2].base_stat
-                + currentPokemon[i].stats[3].base_stat
-                + currentPokemon[i].stats[4].base_stat
-                + currentPokemon[i].stats[5].base_stat
-            }     
+        ${  totalStat =
+            currentPokemon[i].stats[0].base_stat
+            + currentPokemon[i].stats[1].base_stat
+            + currentPokemon[i].stats[2].base_stat
+            + currentPokemon[i].stats[3].base_stat
+            + currentPokemon[i].stats[4].base_stat
+            + currentPokemon[i].stats[5].base_stat
+        }     
     `;
 }
 
@@ -226,6 +234,8 @@ function totalBaseStatsBar() {
     document.getElementById(`base-stat-gray-6`).style.backgroundColor = 'lightgray';
 }
 
+//-----------render the evolution section of pokemon info card------------------------------------------------
+
 function renderEvolution(i) {
     document.getElementById('nav-tab-about').classList.remove('selected-menu');
     document.getElementById('nav-tab-stats').classList.remove('selected-menu');
@@ -234,6 +244,8 @@ function renderEvolution(i) {
 
     document.getElementById('info-container-content').innerHTML = returnEvolutionHTML(i);
 }
+
+//---------------------render the moves section of pokemon info card-----------------------------------
 
 function renderMoves(i) {
     document.getElementById('nav-tab-about').classList.remove('selected-menu');
@@ -247,6 +259,27 @@ function renderMoves(i) {
 
 //------------------- HTML Templates --------------------------------------------------------------
 
+
+function returnFrontCover(i) {
+    return `
+        <div class="pokedex-container" id="pokedex-background">
+            <h1 id="pokemon-name"></h1>
+            <div id="pokemon-type"></div>
+            <div id="pokemon-id"></div>
+        </div>
+        <div class="info-container">
+            <img onclick="hideCard()" class="arrow" src="./img/arrow.png">
+            <img id="pokemon-image">
+            <nav>
+                <div id="nav-tab-about" onclick="renderAbout(${i})" class="nav-tab">About</div>
+                <div id="nav-tab-stats" onclick="renderBaseStats(${i})" class="nav-tab">Base Stats</div>
+                <div id="nav-tab-evolution" onclick="renderEvolution(${i})" class="nav-tab">Evolution</div>
+                <div id="nav-tab-moves" onclick="renderMoves(${i})" class="nav-tab">Moves</div>
+            </nav>
+         <div id="info-container-content"></div>
+        </div>
+    `;
+}
 
 function returnAboutHTML(i) {
   return `
@@ -272,7 +305,7 @@ function returnAboutHTML(i) {
     <table>
         <tr>
             <td>Gender</td>
-            <td><img class="gender" src="./img/male-16.png"> ${100 - (100 / (currentPokemonBreeding[i].gender_rate + 1))}%    <img class="gender" src="./img/female-16.png"> ${100 / (currentPokemonBreeding[i].gender_rate + 1)}%</td>
+            <td id="gender"><img class="gender" src="./img/male-16.png"> ${(100 - (100 / (currentPokemonBreeding[i].gender_rate + 1))).toFixed(0)}%    <img class="gender" src="./img/female-16.png"> ${(100 / (currentPokemonBreeding[i].gender_rate + 1)).toFixed(0)}%</td>
         </tr>
         <tr>
             <td>Egg Groups</td>
