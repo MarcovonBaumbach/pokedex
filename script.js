@@ -15,13 +15,6 @@ async function loadPokemon() {
     let response_url_breeding = await fetch(url_breeding);
     currentPokemonBreeding[i] = await response_url_breeding.json();
 
-    let evolution_chain = currentPokemonBreeding[i].evolution_chain.url;
-    let response_evolution_chain = await fetch(evolution_chain);
-    let currentPokemonEvolution = await response_evolution_chain.json();
-
-    let evolution_1 = currentPokemonEvolution.chain.evolves_to[0].species.url;
-    let response_evolution_1 = await fetch(evolution_1);
-    currentPokemonEvolution1[i] = await response_evolution_1.json();
   }
   loadPokemonEvolution();
 }
