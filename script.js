@@ -2,7 +2,7 @@ let currentPokemon = [];
 let currentPokemonBreeding = [];
 let currentPokemonEvolution1 = [];
 let totalStat;
-let pokemons = ['charmander', 'growlithe', 'vulpix', 'ponyta', 'cyndaquil', 'bulbasaur', 'treecko', 'exeggcute', 'bellsprout', 'squirtle', 'psyduck', 'staryu', 'seel', 'wooper', 'pikachu', 'magnemite', 'voltorb'];
+let pokemons = ['charmander', 'growlithe', 'vulpix', 'ponyta', 'cyndaquil', 'bulbasaur', 'treecko', 'exeggcute', 'bellsprout', 'squirtle', 'psyduck', 'staryu', 'seel', 'wooper', 'pikachu', 'raichu','magnemite', 'voltorb'];
 
 //load api and render pokedex
 async function loadPokemon() {
@@ -25,7 +25,6 @@ async function loadPokemon() {
 
     renderPokemonCard(i);
   }
-  renderPokemonInfo(0)
 }
 
 
@@ -86,6 +85,9 @@ function backgroundColorCard(i) {
 
 //render information of selected pokemon
 function renderPokemonInfo(i) {
+    if (window.innerWidth < '750') {
+        document.getElementById('pokedex-menu').classList.add('d-none');
+    }
     document.getElementById('pokedex').classList.remove('d-none');
     document.getElementById('pokedex').innerHTML = returnFrontCover(i);
     document.getElementById('pokemon-name').innerHTML = currentPokemonBreeding[i].names[5].name; 
@@ -99,6 +101,7 @@ function renderPokemonInfo(i) {
 //Hide Pokedex Info Card, when clicking on back-arrow
 function hideCard() {
     document.getElementById('pokedex').classList.add('d-none');
+    document.getElementById('pokedex-menu').classList.remove('d-none');
 }
 
 //background color of pokemon info card, matching the pokemon type
@@ -276,7 +279,7 @@ function returnFrontCover(i) {
                 <div id="nav-tab-evolution" onclick="renderEvolution(${i})" class="nav-tab">Evolution</div>
                 <div id="nav-tab-moves" onclick="renderMoves(${i})" class="nav-tab">Moves</div>
             </nav>
-         <div id="info-container-content"></div>
+            <div id="info-container-content"></div>
         </div>
     `;
 }
@@ -324,31 +327,38 @@ function returnBaseStatsHTML(i) {
     <table>
         <tr>
             <td>HP</td>
-            <td class="d-flex">${currentPokemon[i].stats[0].base_stat}<div class="base-stats-gap" id="base-stat-0"></div><div id="base-stat-gray-0"></div></td>
+            <td class="td-width">${currentPokemon[i].stats[0].base_stat}</td>
+            <td class="d-flex"><div id="base-stat-0"></div><div id="base-stat-gray-0"></div></td>
         </tr>
         <tr>
             <td>Attack</td>
-            <td class="d-flex">${currentPokemon[i].stats[1].base_stat}<div class="base-stats-gap" id="base-stat-1"></div><div id="base-stat-gray-1"></div></td>
+            <td class="td-width">${currentPokemon[i].stats[1].base_stat}</td>
+            <td class="d-flex"><div id="base-stat-1"></div><div id="base-stat-gray-1"></div></td>
         </tr>
         <tr>
             <td>Defense</td>
-            <td class="d-flex">${currentPokemon[i].stats[2].base_stat}<div class="base-stats-gap" id="base-stat-2"></div><div id="base-stat-gray-2"></div></td>
+            <td class="td-width">${currentPokemon[i].stats[2].base_stat}</td>
+            <td class="d-flex"><div id="base-stat-2"></div><div id="base-stat-gray-2"></div></td>
         </tr>
         <tr>
             <td>Sp. Atk</td>
-            <td class="d-flex">${currentPokemon[i].stats[3].base_stat}<div class="base-stats-gap" id="base-stat-3"></div><div id="base-stat-gray-3"></div></td>
+            <td class="td-width">${currentPokemon[i].stats[3].base_stat}</td>
+            <td class="d-flex"><div id="base-stat-3"></div><div id="base-stat-gray-3"></div></td>
         </tr>
         <tr>
             <td>Sp. Def</td>
-            <td class="d-flex">${currentPokemon[i].stats[4].base_stat}<div class="base-stats-gap" id="base-stat-4"></div><div id="base-stat-gray-4"></div></td>
+            <td class="td-width">${currentPokemon[i].stats[4].base_stat}</td>
+            <td class="d-flex"><div id="base-stat-4"></div><div id="base-stat-gray-4"></div></td>
         </tr>
         <tr>
             <td>Speed</td>
-            <td class="d-flex">${currentPokemon[i].stats[5].base_stat}<div class="base-stats-gap" id="base-stat-5"></div><div id="base-stat-gray-5"></div></td>
+            <td class="td-width">${currentPokemon[i].stats[5].base_stat}</td>
+            <td class="d-flex"><div id="base-stat-5"></div><div id="base-stat-gray-5"></div></td>
         </tr>
         <tr>
             <td>Total</td>
-            <td class="d-flex"><div id="total-base-stats"></div><div class="base-stats-gap" id="base-stat-6"></div><div id="base-stat-gray-6"></div></td>
+            <td class="td-width" id="total-base-stats"></td>
+            <td class="d-flex"><div id="base-stat-6"></div><div id="base-stat-gray-6"></div></td>
         </tr>
     </table>
     <h3>Type Defenses</h3>
@@ -414,7 +424,7 @@ function returnEvolutionHTML(i) {
               <td>${currentPokemon[i].moves[7].move.name}</td>
           </tr>
           <tr>
-              <td>Move 8</td>
+              <td>Move 9</td>
               <td>${currentPokemon[i].moves[8].move.name}</td>
           </tr>
           <tr>
