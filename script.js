@@ -22,9 +22,24 @@ async function loadPokemon() {
     let evolution_1 = currentPokemonEvolution.chain.evolves_to[0].species.url;
     let response_evolution_1 = await fetch(evolution_1);
     currentPokemonEvolution1[i] = await response_evolution_1.json();
-
-    renderPokemonCard(i);
   }
+  loadPokemonEvolution();
+}
+
+async function loadPokemonEvolution() {
+    for (let i = 0; i < pokemons.length; i++) {
+
+        let evolution_chain = currentPokemonBreeding[i].evolution_chain.url;
+        let response_evolution_chain = await fetch(evolution_chain);
+        let currentPokemonEvolution = await response_evolution_chain.json();
+    
+        let evolution_1 = currentPokemonEvolution.chain.evolves_to[0].species.url;
+        let response_evolution_1 = await fetch(evolution_1);
+        currentPokemonEvolution1[i] = await response_evolution_1.json();
+    
+        renderPokemonCard(i);
+      }
+      renderPokemonInfo(0);
 }
 
 
@@ -147,7 +162,7 @@ function renderPokemonId(i) {
     if(currentPokemon[i].id >= 10 && currentPokemon[i].id < 100) {
         document.getElementById('pokemon-id').innerHTML = '#0' + currentPokemon[i].id;
     }
-    if(currentPokemon[i].id > 100) {
+    if(currentPokemon[i].id >= 100) {
         document.getElementById('pokemon-id').innerHTML = '#' + currentPokemon[i].id;
     }
 }
