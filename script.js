@@ -24,7 +24,7 @@ async function loadPokemon(arr) {
         document.getElementById('not-found').classList.remove('d-none');
         setTimeout(() => {
             document.getElementById('not-found').classList.add('d-none');
-        }, 3000);
+        }, 2800);
     }
 }
 
