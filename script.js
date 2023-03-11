@@ -7,21 +7,20 @@ let pokemons = ['charmander', 'charmeleon', 'growlithe', 'vulpix', 'ponyta', 'cy
 
 //load api and render pokedex
 async function loadPokemon(arr) {
+    document.getElementById('loading').classList.remove('d-none');
     try {
         for (let i = 0; i < arr.length; i++) {
-
-            let url = `https://pokeapi.co/api/v2/pokemon/${arr[i]}`;
+            let url = `https://pokeapi.co/api/v2/pokemon/${arr[i]}`
             let response = await fetch(url);
             currentPokemon[i] = await response.json();
-
 
             let url_breeding = `https://pokeapi.co/api/v2/pokemon-species/${arr[i]}`;
             let response_url_breeding = await fetch(url_breeding);
             currentPokemonBreeding[i] = await response_url_breeding.json();
         }
         loadPokemonEvolution(arr);
-
-    } catch (e) {
+    } catch {
+        document.getElementById('loading').classList.add('d-none');
         document.getElementById('not-found').classList.remove('d-none');
         setTimeout(() => {
             document.getElementById('not-found').classList.add('d-none');
@@ -42,7 +41,11 @@ async function loadPokemonEvolution(arr) {
 
         renderPokemonCard(i, arr);
     }
-    renderPokemonInfo(0);
+    document.getElementById('loading').classList.add('d-none');
+
+    if(window.innerWidth > '900') {
+        renderPokemonInfo(0);
+    }
 }
 
 
@@ -176,10 +179,10 @@ function backgroundColorPokedex(i) {
         }
     }
     if (currentPokemon[i].types[0].type.name != 'electric' &&
-        currentPokemon[i].types[0].type.name != 'water' && 
-        currentPokemon[i].types[0].type.name != 'grass' && 
+        currentPokemon[i].types[0].type.name != 'water' &&
+        currentPokemon[i].types[0].type.name != 'grass' &&
         currentPokemon[i].types[0].type.name != 'bug' &&
-        currentPokemon[i].types[0].type.name != 'fire'    
+        currentPokemon[i].types[0].type.name != 'fire'
     ) {
         document.getElementById('pokedex-background').classList.add('background-black');
     }

@@ -321,6 +321,11 @@ tr {
     background-color: #000000;
 }
 
+.loading {
+    height: 32px;
+    width: auto;
+}
+
 .pokemon-card {
     display: flex;
     flex-direction: column;
