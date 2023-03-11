@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokedex</title>
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body onload="loadPokemon()"> 
-  <div id="pokedex-menu">
-    <div class="menu-headline">
-     <h2 class="color-black">Pokedex</h2>
-     <img class="pokeball" src="./img/pokeball.png">
-    </div>
-  </div>
 
-  <div class="pokedex-position">
-    <div id="pokedex" class="pokedex d-none"></div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokedex</title>
+  <script src="script.js"></script>
+  <script src="templates.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="loadPokemon(pokemons)">
+  <div class="menu-headline">
+    <img onclick="location.href='index.html'" class="logo" src="./img/pokemon-logo.png">
+    <div id="not-found" class="d-none not-found">Pokemon not found!</div>
+    <div class="menu-right">
+      <input id="search" placeholder="search for pokemons...">
+      <button onclick="filterPokemon()" placeholder="Search">Search</button>
+      <!-- <img class="pokeball" src="./img/pokeball.png"> -->
+    </div>
+
+  </div>
+  <div class="flex-container">  
+
+    <div id="pokedex-menu"></div>
+
+    <div class="pokedex-position">
+      <div id="pokedex" class="pokedex d-none"></div>
+    </div>
+
   </div>
 </body>
+
 </html>
