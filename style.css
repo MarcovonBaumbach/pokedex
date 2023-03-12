@@ -363,6 +363,19 @@ tr {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 5;
+    animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
 }
 
 .pokemon-card {

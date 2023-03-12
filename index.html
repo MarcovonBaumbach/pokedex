@@ -15,6 +15,7 @@
 
 <body onload="loadPokemon(pokemons)">
   <img id="loading" class="loading d-none" src="./img/loading.gif">
+
   <div class="menu-headline">
     <img onclick="location.href='index.html'" class="logo" src="./img/pokemon-logo.png">
     <div id="not-found" class="d-none not-found">Pokemon not found!</div>
@@ -23,16 +24,13 @@
       <button onclick="filterPokemon()" placeholder="Search">Search</button>
       <!-- <img class="pokeball" src="./img/pokeball.png"> -->
     </div>
-
   </div>
+
   <div class="flex-container">  
-
     <div id="pokedex-menu"></div>
-
     <div class="pokedex-position">
       <div id="pokedex" class="pokedex d-none"></div>
     </div>
-
   </div>
 </body>
 
