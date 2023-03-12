@@ -1,10 +1,3 @@
-let currentPokemon = [];
-let searchedPokemon = [];
-let currentPokemonBreeding = [];
-let currentPokemonEvolution1 = [];
-let totalStat;
-let pokemons = ['charmander', 'charmeleon', 'growlithe', 'vulpix', 'ponyta', 'cyndaquil', 'bulbasaur', 'ivysaur', 'venusaur', 'treecko', 'exeggcute', 'bellsprout', 'squirtle', 'wartortle', 'psyduck', 'staryu', 'seel', 'wooper', 'pikachu', 'raichu', 'magnemite', 'voltorb'];
-
 //load api and render pokedex
 async function loadPokemon(arr) {
     document.getElementById('loading').classList.remove('d-none');
@@ -43,7 +36,7 @@ async function loadPokemonEvolution(arr) {
     }
     document.getElementById('loading').classList.add('d-none');
 
-    if(window.innerWidth > '900') {
+    if (window.innerWidth > '900') {
         renderPokemonInfo(0);
     }
 }
@@ -58,9 +51,9 @@ function filterPokemon() {
     currentPokemon = [];
     currentPokemonBreeding = [];
     currentPokemonEvolution1 = [];
-    for (let i = 0; i < pokemons.length; i++) {
-        if (pokemons[i].includes(filteredPokemon)) {
-            searchedPokemon.push(pokemons[i]);
+    for (let i = 0; i < allPokemons.length; i++) {
+        if (allPokemons[i].toLowerCase().includes(filteredPokemon)) {
+            searchedPokemon.push(allPokemons[i].toLowerCase());
         }
     }
     renderNewPokemon(filteredPokemon, searchedPokemon);
@@ -75,7 +68,6 @@ function renderNewPokemon(filteredPokemon, searchedPokemon) {
         document.getElementById('pokedex-menu').innerHTML = '';
         searchedPokemon.push(filteredPokemon);
         loadPokemon(searchedPokemon);
-
     }
 }
 
@@ -101,30 +93,15 @@ function renderPokemonCardType(index, arr) {
 
 //background color of pokemon card, matching the pokemon type
 function backgroundColorCard(i, arr) {
-    if (currentPokemon[i].types[0].type.name == 'fire') {
-        document.getElementById(`${arr[i]}`).classList.add('background-red');
-        for (let j = 0; j < currentPokemon[i].types.length; j++) {
-            document.getElementById(`card-type-background${i}${j}`).classList.add('background-type-red');
+    for (let k = 0; k < pokemonTypes.length; k++) {
+        if (currentPokemon[i].types[0].type.name == pokemonTypes[k].type) {
+            document.getElementById(`${arr[i]}`).classList.add(pokemonTypes[k].background);
+            for (let j = 0; j < currentPokemon[i].types.length; j++) {
+                document.getElementById(`card-type-background${i}${j}`).classList.add(pokemonTypes[k].backgroundType);
+            }
         }
     }
-    if (currentPokemon[i].types[0].type.name == 'grass' || currentPokemon[i].types[0].type.name == 'bug') {
-        document.getElementById(`${arr[i]}`).classList.add('background-green');
-        for (let j = 0; j < currentPokemon[i].types.length; j++) {
-            document.getElementById(`card-type-background${i}${j}`).classList.add('background-type-green');
-        }
-    }
-    if (currentPokemon[i].types[0].type.name == 'water') {
-        document.getElementById(`${arr[i]}`).classList.add('background-blue');
-        for (let j = 0; j < currentPokemon[i].types.length; j++) {
-            document.getElementById(`card-type-background${i}${j}`).classList.add('background-type-blue');
-        }
-    }
-    if (currentPokemon[i].types[0].type.name == 'electric') {
-        document.getElementById(`${arr[i]}`).classList.add('background-yellow');
-        for (let j = 0; j < currentPokemon[i].types.length; j++) {
-            document.getElementById(`card-type-background${i}${j}`).classList.add('background-type-yellow');
-        }
-    }
+
 }
 
 
@@ -154,37 +131,13 @@ function hideCard() {
 
 //background color of pokemon info card, matching the pokemon type
 function backgroundColorPokedex(i) {
-    if (currentPokemon[i].types[0].type.name == 'fire') {
-        document.getElementById('pokedex-background').classList.add('background-red');
-        for (let j = 0; j < currentPokemon[i].types.length; j++) {
-            document.getElementById('type-background' + j).classList.add('background-type-red');
+    for (let k = 0; k < pokemonTypes.length; k++) {
+        if (currentPokemon[i].types[0].type.name == pokemonTypes[k].type) {
+            document.getElementById('pokedex-background').classList.add(pokemonTypes[k].background);
+            for (let j = 0; j < currentPokemon[i].types.length; j++) {
+                document.getElementById('type-background' + j).classList.add(pokemonTypes[k].backgroundType);
+            }
         }
-    }
-    if (currentPokemon[i].types[0].type.name == 'grass' || currentPokemon[i].types[0].type.name == 'bug') {
-        document.getElementById('pokedex-background').classList.add('background-green');
-        for (let j = 0; j < currentPokemon[i].types.length; j++) {
-            document.getElementById('type-background' + j).classList.add('background-type-green');
-        }
-    }
-    if (currentPokemon[i].types[0].type.name == 'water') {
-        document.getElementById('pokedex-background').classList.add('background-blue');
-        for (let j = 0; j < currentPokemon[i].types.length; j++) {
-            document.getElementById('type-background' + j).classList.add('background-type-blue');
-        }
-    }
-    if (currentPokemon[i].types[0].type.name == 'electric') {
-        document.getElementById('pokedex-background').classList.add('background-yellow');
-        for (let j = 0; j < currentPokemon[i].types.length; j++) {
-            document.getElementById('type-background' + j).classList.add('background-type-yellow');
-        }
-    }
-    if (currentPokemon[i].types[0].type.name != 'electric' &&
-        currentPokemon[i].types[0].type.name != 'water' &&
-        currentPokemon[i].types[0].type.name != 'grass' &&
-        currentPokemon[i].types[0].type.name != 'bug' &&
-        currentPokemon[i].types[0].type.name != 'fire'
-    ) {
-        document.getElementById('pokedex-background').classList.add('background-black');
     }
 }
 

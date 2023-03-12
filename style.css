@@ -317,8 +317,44 @@ tr {
     background-color: #ddae0b;
 }
 
-.background-black {
-    background-color: #000000;
+.background-gray {
+    background-color: #717171;
+}
+
+.background-type-gray {
+    background-color: #aeaeae;
+}
+
+.background-violett {
+    background-color: #6a007f;
+}
+
+.background-type-violett {
+    background-color: #a500cf;
+}
+
+.background-normal {
+    background-color: #c6d37f;
+}
+
+.background-type-normal {
+    background-color: #c2be74;
+}
+
+.background-brown {
+    background-color: #272015;
+}
+
+.background-type-brown {
+    background-color: #494736;
+}
+
+.background-pink {
+    background-color: #f9d0ff;
+}
+
+.background-type-pink {
+    background-color: #ffa3ed;
 }
 
 .loading {
