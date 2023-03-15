@@ -1,25 +1,20 @@
 //load api and render pokedex
 async function loadPokemon(arr) {
     document.getElementById('loading').classList.remove('d-none');
-    try {
-        for (let i = 0; i < arr.length; i++) {
-            let url = `https://pokeapi.co/api/v2/pokemon/${arr[i]}`
-            let response = await fetch(url);
-            currentPokemon[i] = await response.json();
 
-            let url_breeding = `https://pokeapi.co/api/v2/pokemon-species/${arr[i]}`;
-            let response_url_breeding = await fetch(url_breeding);
-            currentPokemonBreeding[i] = await response_url_breeding.json();
-        }
-        loadPokemonEvolution(arr);
-    } catch {
-        document.getElementById('loading').classList.add('d-none');
-        document.getElementById('not-found').classList.remove('d-none');
-        setTimeout(() => {
-            document.getElementById('not-found').classList.add('d-none');
-        }, 2800);
+    for (let i = 0; i < arr.length; i++) {
+        let url = `https://pokeapi.co/api/v2/pokemon/${arr[i]}`
+        let response = await fetch(url);
+        currentPokemon[i] = await response.json();
+
+        let url_breeding = `https://pokeapi.co/api/v2/pokemon-species/${arr[i]}`;
+        let response_url_breeding = await fetch(url_breeding);
+        currentPokemonBreeding[i] = await response_url_breeding.json();
     }
+    loadPokemonEvolution(arr);
 }
+
+
 
 async function loadPokemonEvolution(arr) {
     for (let i = 0; i < arr.length; i++) {
@@ -65,9 +60,11 @@ function renderNewPokemon(filteredPokemon, searchedPokemon) {
         document.getElementById('pokedex-menu').innerHTML = '';
         loadPokemon(searchedPokemon);
     } else {
-        document.getElementById('pokedex-menu').innerHTML = '';
-        searchedPokemon.push(filteredPokemon);
-        loadPokemon(searchedPokemon);
+        document.getElementById('loading').classList.add('d-none');
+        document.getElementById('not-found').classList.remove('d-none');
+        setTimeout(() => {
+            document.getElementById('not-found').classList.add('d-none');
+        }, 2800);
     }
 }
 
