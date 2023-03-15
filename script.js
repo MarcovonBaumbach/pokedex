@@ -60,6 +60,7 @@ function renderNewPokemon(filteredPokemon, searchedPokemon) {
         document.getElementById('pokedex-menu').innerHTML = '';
         loadPokemon(searchedPokemon);
     } else {
+        document.getElementById('pokedex-menu').innerHTML = '';
         document.getElementById('loading').classList.add('d-none');
         document.getElementById('not-found').classList.remove('d-none');
         setTimeout(() => {
